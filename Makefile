@@ -1,26 +1,31 @@
-SRCS	= \
-	program/ft_malcolm.c program/parsing.c
+SRCS    = \
+	program/ft_malcolm.c program/parsing.c \
+	program/spoofing.c program/utils.c \
+	program/sniffing.c
 
 OBJS	= $(SRCS:.c=.o)
 
-GCC	= gcc -Wall -Wextra -Werror
+GCC		= gcc -Wall -Wextra -Werror
 
-NAME	= ft_malcolm.a
+NAME	= ft_malcolm
 
-all:	$(NAME)
+all:	$(NAME) libft
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	$(GCC) -o $(NAME) $(OBJS) -Llibft -lft
+
+libft:
+	$(MAKE) -C libft
 
 .c.o:
-	$(GCC) -c $< -o $(<:.c=.o) 
+	$(GCC) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
 
-fclean:	clean
+fclean: clean
 	rm -f $(NAME)
 
-re:	fclean all
+re: fclean all
 
-.PHONY : re fclean clean all
+.PHONY: re fclean clean all

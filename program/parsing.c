@@ -141,14 +141,17 @@ static int hexa_and_len(char **tab)
 static bool	parsing_mac(char *str)
 {
 	char	**tab;
+	int		tmp;
 
+	tmp = 0;
 	tab = NULL;
 	if (char_count(str, ':') != 5)
 		return (error_msg(BLUE "[ERROR MAC] " RESET "At least one MAC addr does not contain the right amount of \":\".\n", NULL, false));
 	tab = ft_split(str, ':');
 	if (!tab_len(tab, 6))
 		return (error_msg (BLUE "[ERROR MAC] " RESET "At least one MAC addr is not in a 6 column format.\n", tab, false));	
-	if (hexa_and_len(tab) == 1 || hexa_and_len(tab) == 2)
+	tmp = hexa_and_len(tab);
+	if (tmp == 1 || tmp == 2)
 		return (error_msg (BLUE "[ERROR MAC] " RESET "Each MAC addresses should have two hexadecimal element per column.\n", tab, false));	
 	free_tab(tab);
 	return (true);
@@ -166,5 +169,7 @@ bool	parsing(int ac, char **av)
 		return (false);
 	if (!parsing_mac(av[4]))
 		return (false);
+	if (!ft_strcmp(av[2], av[4]) || !ft_strcmp(av[1], av[3]))
+		return (error_msg(RED "[ERROR DOUBLONS] " RESET "IPs addresses or MAC addresses are the same.\n", NULL, false));
 	return (true);
 }

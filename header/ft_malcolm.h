@@ -17,6 +17,10 @@
 #include <net/if.h>
 #include <stdbool.h>
 
+#include <netpacket/packet.h>
+#include <net/ethernet.h> 
+#include <netinet/if_ether.h>
+
 #include "../libft/libft.h"
 
 // Colors Set
@@ -30,5 +34,8 @@
 #define RESET "\e[0m"
 
 bool	parsing(int ac, char **av);
+void 	send_arp_reply(int fd, const char *ip_source, const char *mac_source, const char *ip_target, const char *mac_target);
+void 	process_packet(int fd, unsigned char *buff, const char *ip_source, const char *ip_target, const char *mac_source, const char *mac_target);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif
