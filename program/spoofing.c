@@ -1,5 +1,7 @@
 #include "../header/ft_malcolm.h"
 
+volatile bool STOP;
+
 static unsigned char hex_char_to_byte(char c)
 {
     if (c >= '0' && c <= '9')
@@ -70,8 +72,8 @@ void send_arp_reply(int fd, const char *ip_source, const char *mac_source, const
     ft_memcpy(arp->arp_tha, mac_target_bin, 6);
     ft_memcpy(arp->arp_tpa, ip_target_bin, 4);
 
-    // sockaddr_ll=utilisée pour spécifier les paramètres 
-    // de la couche liaison de données lors de l'envoi de paquets bruts 
+    // sockaddr_ll=utilisée pour spécifier les paramètres
+    // de la couche liaison de données lors de l'envoi de paquets bruts
     struct sockaddr_ll device;
     ft_memset(&device, 0, sizeof(device));
     // convertit le nom d'une interface réseau en son index numérique. - spécifie l'interface réseau donc
@@ -85,7 +87,7 @@ void send_arp_reply(int fd, const char *ip_source, const char *mac_source, const
     char ip_src_str[INET_ADDRSTRLEN], ip_tgt_str[INET_ADDRSTRLEN];
     inet_ntop(AF_INET, ip_source_bin, ip_src_str, INET_ADDRSTRLEN);
     inet_ntop(AF_INET, ip_target_bin, ip_tgt_str, INET_ADDRSTRLEN);
-    
+
     printf("Sending ARP reply:\n");
     printf("Source IP: %s\n", ip_src_str);
     printf("Source MAC: %02x:%02x:%02x:%02x:%02x:%02x\n",
@@ -104,4 +106,5 @@ void send_arp_reply(int fd, const char *ip_source, const char *mac_source, const
     {
         printf(GREEN "[INFO]" RESET " Sent ARP reply packet.\n");
     }
+    STOP = true;
 }

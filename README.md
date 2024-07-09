@@ -1,19 +1,23 @@
 # Faire marcher tout ce code:
 docker build -t ft_malcolm .
 
-docker run --rm -it --privileged --network malcolm-net --name malcolm ft_malcolm
-
-# reseau pour lier les deux dockers:
+# Reseau pour lier les deux dockers:
 docker network create malcolm-net
 
-# le test:
-docker build -t ft_malcolm_test -f Dockerfile.test .
+# Récupérer les bon IPs et MAC adresses pour le test:
 
-docker run --rm -it --network malcolm-net --name malcolm_test ft_malcolm_test
+- Lancer le programme ft_malcolm avec des fake IP et MAC
+- Faire un arping
+- Et regarder les résultats du arping pour déduire un IP et adresse MAC valable ✅
 
-# supprimer les dockers en cours:
-docker stop $(docker ps -a -q)
-docker rm $(docker ps -a -q)
+# Terminal 1:
 
-# sortir les IPs des containers:
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 4fe44bcf455d
+docker run --rm -it --cap-add=ALL --network malcolm-net --name malcolm ft_malcolm /bin/bash
+
+./ft_malcolm 172.19.0.3 7A:66:0F:E0:EE:8D 172.19.0.4 5C:96:9D:A0:4D:64
+
+# Terminal 2:
+docker run --rm -it --network malcolm-net --name requester ft_malcolm /bin/bash
+
+apt-get update && apt-get install -y iputils-arping
+arping -I eth0 172.19.0.3
