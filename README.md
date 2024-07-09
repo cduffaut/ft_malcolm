@@ -15,9 +15,11 @@ docker network create malcolm-net
 docker run --rm -it --cap-add=ALL --network malcolm-net --name malcolm ft_malcolm /bin/bash
 
 ./ft_malcolm 172.19.0.3 7A:66:0F:E0:EE:8D 172.19.0.4 5C:96:9D:A0:4D:64
+./ft_malcolm 172.18.0.2 aA:bb:cc:dd:EE:ff 172.18.0.3 02:42:ac:12:00:03
 
 # Terminal 2:
 docker run --rm -it --network malcolm-net --name requester ft_malcolm /bin/bash
 
 apt-get update && apt-get install -y iputils-arping
 arping -I eth0 172.19.0.3
+arping -I eth0 172.18.0.2

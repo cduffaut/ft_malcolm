@@ -94,7 +94,7 @@ void send_arp_reply(int fd, const char *ip_source, const char *mac_source, const
            mac_source_bin[0], mac_source_bin[1], mac_source_bin[2],
            mac_source_bin[3], mac_source_bin[4], mac_source_bin[5]);
     printf("Target IP: %s\n", ip_tgt_str);
-    printf("Target MAC: %02x:%02x:%02x:%02x:%02x:%02x\n",
+    printf("Target MAC: %02x:%02x:%02x:%02x:%02x:%02x\n\n",
            mac_target_bin[0], mac_target_bin[1], mac_target_bin[2],
            mac_target_bin[3], mac_target_bin[4], mac_target_bin[5]);
 
