@@ -61,6 +61,7 @@ int main(int ac, char **av)
         int fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
         if (fd == -1)
         {
+                free(buff);
                 printf("Error: %s\n", strerror(errno));
                 return (main_error_msg(RED "[ERROR]" RESET " Something went wrong with the socket() function...\nEnding the program safely.\n", 1));
         }
